@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UI
 {
+//  uses the observer pattern in order to create an event listener which can update individual tabs as if they were an actual group 
     public class TabGroup : MonoBehaviour
     {
         public List<Tab> tabs;
@@ -12,6 +13,7 @@ namespace UI
         public Tab selectedTab;
         public List<GameObject> objectsToSwap;
 
+//      subscribes a tab to a tabgroup
         public void Subscribe(Tab tab)
         {
             if (tabs == null)
@@ -22,6 +24,7 @@ namespace UI
             tabs.Add(tab);
         }
 
+//      Gets called when a mouse enters a tab (hover)
         public void OnTabEnter(Tab tab)
         {
             ResetTabs();
@@ -32,12 +35,13 @@ namespace UI
             }
         }
 
+//      Gets called when a mouse exits a tab (stops hovering)
         public void OnTabExit(Tab tab)
         {
             ResetTabs();
-
         }
 
+//      Gets called when a tab gets clicked
         public void OnTabSelected(Tab tab)
         {
             if (selectedTab == tab)
@@ -55,11 +59,16 @@ namespace UI
             }
         }
 
-        public void ResetTabs()
+        public void ResetTabs(bool hardReset = false)
         {
+            if (hardReset) selectedTab = null;
+            
             foreach (Tab tab in tabs)
             {
-                if (selectedTab != null && tab == selectedTab) { continue; }
+                if ((selectedTab != null && tab == selectedTab))
+                {
+                    continue;
+                }
 
                 tab.background.sprite = tabIdle;
             }
