@@ -1,36 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     public class TabGroup : MonoBehaviour
     {
-        public List<Tab> Tabs;
-        public Sprite TabIdle;
-        public Sprite TabHover;
-        public Sprite TabActive;
-        public Tab SelectedTab;
-        public List<GameObject> ObjectsToSwap;
+        public List<Tab> tabs;
+        public Sprite tabIdle;
+        public Sprite tabHover;
+        public Sprite tabActive;
+        public Tab selectedTab;
+        public List<GameObject> objectsToSwap;
 
         public void Subscribe(Tab tab)
         {
-            if (Tabs == null)
+            if (tabs == null)
             {
-                Tabs = new List<Tab>();
+                tabs = new List<Tab>();
             }
 
-            Tabs.Add(tab);
+            tabs.Add(tab);
         }
 
         public void OnTabEnter(Tab tab)
         {
             ResetTabs();
 
-            if (SelectedTab == null || tab != SelectedTab)
+            if (selectedTab == null || tab != selectedTab)
             {
-                tab.Background.sprite = TabHover;
+                tab.background.sprite = tabHover;
             }
         }
 
@@ -42,36 +40,36 @@ namespace Assets.Scripts.UI
 
         public void OnTabSelected(Tab tab)
         {
-            if (SelectedTab == tab)
+            if (selectedTab == tab)
             {
-                SelectedTab = null;
+                selectedTab = null;
                 ResetTabs();
                 UpdateTabWindows(-1);
             }
             else
             {
-                SelectedTab = tab;
+                selectedTab = tab;
                 ResetTabs();
-                tab.Background.sprite = TabActive;
+                tab.background.sprite = tabActive;
                 UpdateTabWindows(tab.transform.GetSiblingIndex());
             }
         }
 
         public void ResetTabs()
         {
-            foreach (Tab tab in Tabs)
+            foreach (Tab tab in tabs)
             {
-                if (SelectedTab != null && tab == SelectedTab) { continue; }
+                if (selectedTab != null && tab == selectedTab) { continue; }
 
-                tab.Background.sprite = TabIdle;
+                tab.background.sprite = tabIdle;
             }
         }
 
         private void UpdateTabWindows(int index = 0)
         {
-            for (int i = 0; i < ObjectsToSwap.Count; i++)
+            for (int i = 0; i < objectsToSwap.Count; i++)
             {
-                ObjectsToSwap[i].SetActive(i == index);
+                objectsToSwap[i].SetActive(i == index);
             }
         }
     }

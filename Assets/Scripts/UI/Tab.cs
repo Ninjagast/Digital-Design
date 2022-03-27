@@ -1,36 +1,34 @@
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     [RequireComponent(typeof(Image))]
     public class Tab : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
-        public TabGroup TabGroup;
-        public Image Background;
+        public TabGroup tabGroup;
+        public Image background;
 
         void Start()
         {
-            Background = GetComponent<Image>();
-            TabGroup.Subscribe(this);
+            background = GetComponent<Image>();
+            tabGroup.Subscribe(this);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            TabGroup.OnTabEnter(this);
+            tabGroup.OnTabEnter(this);
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            TabGroup.OnTabSelected(this);
+            tabGroup.OnTabSelected(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            TabGroup.OnTabExit(this);
+            tabGroup.OnTabExit(this);
         }
     }
 }
