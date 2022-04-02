@@ -1,4 +1,5 @@
 using System;
+using GlobalScripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,12 +13,12 @@ namespace UI
 
         public float movementSpeed;
         public float scrollMovementSpeed;
-        public float movementTime;
         public float zoomSpeed;
-        public float planeDistanceZ;
 
         public Camera mainCamera;
         
+        private float _movementTime = 6;
+        private float _planeDistanceZ = -40;
         private Vector3 _newPosition;
         private Vector3 _dragStartPosition;
         private Vector3 _dragCurrentPosition;
@@ -28,14 +29,9 @@ namespace UI
         private void Awake()
         {
             _current = this;
-        }
-
-        void Start()
-        {
             Vector3 cameraPos = mainCamera.transform.position;
-            
             _newPosition = transform.position;
-            _distanceFromCamera = new Vector3(cameraPos.x, cameraPos.y, cameraPos.z - planeDistanceZ);
+            _distanceFromCamera = new Vector3(cameraPos.x, cameraPos.y, cameraPos.z - _planeDistanceZ);
             _plane = new Plane(Vector3.forward, _distanceFromCamera);
         }
 
@@ -47,6 +43,16 @@ namespace UI
 
         private void _handleKeyboardInput()
         {
+//          Todo Remove this function from this place
+            if (Input.GetKey(KeyCode.L))
+            {
+                EventManager.Current.SimulationStarting();
+            }
+            if (Input.GetKey(KeyCode.P))
+            {
+                EventManager.Current.SimulationStopping();
+            }
+            
             float scrollSpeed = Input.GetAxis("Mouse ScrollWheel");
             
 //          directional movement
@@ -104,7 +110,7 @@ namespace UI
                 mainCamera.orthographicSize -= (zoomSpeed * scrollSpeed);
             }
 
-            transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * movementTime);
+            transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * _movementTime);
             
         }
 

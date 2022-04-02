@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &44376461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 44376463}
+  - component: {fileID: 44376462}
+  m_Layer: 0
+  m_Name: MouseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &44376462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44376461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6d046d7923917a42af8ea6f11fc272e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverSheet: 0
+--- !u!4 &44376463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44376461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 677.3019, y: 475.14386, z: 16.768538}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &48342779
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,8 +359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67104cd21576cf42b979211705df97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TabGroup: {fileID: 1406945575}
-  Background: {fileID: 0}
+  tabGroup: {fileID: 1406945575}
+  background: {fileID: 0}
 --- !u!1 &77849963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,8 +1920,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67104cd21576cf42b979211705df97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TabGroup: {fileID: 1406945575}
-  Background: {fileID: 0}
+  tabGroup: {fileID: 1406945575}
+  background: {fileID: 0}
 --- !u!1 &496921528
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,7 +2483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: -40}
+  m_LocalPosition: {x: 0, y: -5, z: -80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2457,12 +2502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10611bc7943e4f14da422c40c0f6dc23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 0.05
-  ScrollMovementSpeed: 5
-  MovementTime: 5
-  ZoomSpeed: 2
-  PlaneDistanceZ: -40
-  MainCamera: {fileID: 519420031}
+  movementSpeed: 0.3
+  scrollMovementSpeed: 3
+  zoomSpeed: 3
+  mainCamera: {fileID: 519420031}
 --- !u!1 &544571121
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,8 +3197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67104cd21576cf42b979211705df97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TabGroup: {fileID: 2007127434}
-  Background: {fileID: 0}
+  tabGroup: {fileID: 2007127434}
+  background: {fileID: 0}
 --- !u!1 &729490885
 GameObject:
   m_ObjectHideFlags: 0
@@ -45219,6 +45262,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 936264379}
   m_CullTransparentMesh: 1
+--- !u!1 &939235080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 939235082}
+  - component: {fileID: 939235081}
+  m_Layer: 0
+  m_Name: EventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &939235081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939235080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea56ee3e0431594b931c9a60a28cbc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &939235082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939235080}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1045619254
 GameObject:
   m_ObjectHideFlags: 0
@@ -46113,8 +46200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67104cd21576cf42b979211705df97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TabGroup: {fileID: 1406945575}
-  Background: {fileID: 0}
+  tabGroup: {fileID: 1406945575}
+  background: {fileID: 0}
 --- !u!1 &1206892063
 GameObject:
   m_ObjectHideFlags: 0
@@ -46845,12 +46932,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a062115986c42647a671b1ddb593e49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tabs: []
-  TabIdle: {fileID: 21300000, guid: 4c0d107c7b75cd246b1c0a74305005ad, type: 3}
-  TabHover: {fileID: 21300000, guid: 52aedb8caaddb134ba2c0d8960fc7172, type: 3}
-  TabActive: {fileID: 21300000, guid: 9aa4ffb49053fbd489b2a2665febd3da, type: 3}
-  SelectedTab: {fileID: 0}
-  ObjectsToSwap:
+  tabs:
+  - {fileID: 483749455}
+  - {fileID: 1197517318}
+  - {fileID: 76970689}
+  tabIdle: {fileID: 21300000, guid: 4c0d107c7b75cd246b1c0a74305005ad, type: 3}
+  tabHover: {fileID: 21300000, guid: 52aedb8caaddb134ba2c0d8960fc7172, type: 3}
+  tabActive: {fileID: 21300000, guid: 9aa4ffb49053fbd489b2a2665febd3da, type: 3}
+  selectedTab: {fileID: 0}
+  objectsToSwap:
   - {fileID: 315189587}
   - {fileID: 1527091158}
   - {fileID: 1686813923}
@@ -48136,6 +48226,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657815779}
   m_CullTransparentMesh: 1
+--- !u!1 &1660050359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1660050360}
+  m_Layer: 0
+  m_Name: WireBlueprintsContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1660050360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660050359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1686813923
 GameObject:
   m_ObjectHideFlags: 0
@@ -48270,9 +48391,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158fe7c87ca63b341988a33f9ecdd2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedComponent: {fileID: 1955600498067971648, guid: d69835a30a04c09468e73c832594c137, type: 3}
-  MainCamera: {fileID: 519420031}
+  selectedComponent: 0
+  buildableComponents:
+  - {fileID: 1955600498067971648, guid: d69835a30a04c09468e73c832594c137, type: 3}
+  - {fileID: 4393732344891285105, guid: 84ae7283ef383b04ab088093afbc0a50, type: 3}
+  mainCamera: {fileID: 519420031}
   tilemap: {fileID: 861753217}
+  wireBlueprintsContainer: {fileID: 1660050359}
 --- !u!4 &1716367162
 Transform:
   m_ObjectHideFlags: 0
@@ -49584,12 +49709,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a062115986c42647a671b1ddb593e49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tabs: []
-  TabIdle: {fileID: 21300000, guid: 4c0d107c7b75cd246b1c0a74305005ad, type: 3}
-  TabHover: {fileID: 21300000, guid: 52aedb8caaddb134ba2c0d8960fc7172, type: 3}
-  TabActive: {fileID: 21300000, guid: 9aa4ffb49053fbd489b2a2665febd3da, type: 3}
-  SelectedTab: {fileID: 0}
-  ObjectsToSwap:
+  tabs:
+  - {fileID: 706010596}
+  tabIdle: {fileID: 21300000, guid: 4c0d107c7b75cd246b1c0a74305005ad, type: 3}
+  tabHover: {fileID: 21300000, guid: 52aedb8caaddb134ba2c0d8960fc7172, type: 3}
+  tabActive: {fileID: 21300000, guid: 9aa4ffb49053fbd489b2a2665febd3da, type: 3}
+  selectedTab: {fileID: 0}
+  objectsToSwap:
   - {fileID: 180257905}
 --- !u!1 &2044422012
 GameObject:
