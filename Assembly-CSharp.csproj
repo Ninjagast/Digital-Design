@@ -43,11 +43,14 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\UI\Tab.cs" />
      <Compile Include="Assets\Scripts\GlobalScripts\EventManager.cs" />
-     <Compile Include="Assets\Scripts\MouseState.cs" />
      <Compile Include="Assets\Scripts\UI\SheetAreaController.cs" />
      <Compile Include="Assets\Scripts\UI\TabGroup.cs" />
      <Compile Include="Assets\Scripts\UI\CameraController.cs" />
      <Compile Include="Assets\Scripts\Creation\CreationManager.cs" />
+     <Compile Include="Assets\Scripts\GlobalScripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Creation\Commands\CommandHistory.cs" />
+     <Compile Include="Assets\Scripts\Creation\Commands\ICommand.cs" />
+     <Compile Include="Assets\Scripts\Enums\AppState.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

@@ -1,3 +1,4 @@
+using GlobalScripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,12 +9,12 @@ namespace UI
     {
         public void OnPointerEnter(PointerEventData eventData)
         {
-            MouseState.Current.mouseOverSheet = true;
+            GameManager.Current.mouseOverSheet = true;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            MouseState.Current.mouseOverSheet = false;
+            GameManager.Current.mouseOverSheet = false;
         }
     }
 }

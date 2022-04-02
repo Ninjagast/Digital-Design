@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enums;
 using GlobalScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,7 +13,7 @@ namespace Creation
         public static CreationManager Current => _current;
         
         public int selectedComponent = 0;
-        public List<GameObject> buildableComponents; // 0: Wire | 1:Wire blueprint
+        public List<GameObject> buildableComponents; // 0: Wire | 1:Wire blueprint | 2:Not gate
         public Camera mainCamera;
         public Tilemap tilemap;
         public GameObject wireBlueprintsContainer;
@@ -21,7 +22,6 @@ namespace Creation
         private Dictionary<Vector3, GameObject> _blueprintGrid;
         private Vector3 _lastCell;
         private bool _deletedWire = false;
-        private bool _simulationRunning = false;
         
         private void Awake()
         {
@@ -32,31 +32,20 @@ namespace Creation
 
         private void Start()
         {
-            EventManager.Current.ONSimulationStarting += _OnSimulationStarting;
-            EventManager.Current.ONSimulationStopping += _OnSimulationStopping;
+
         }
 
         void Update()
         {
-            if (!_simulationRunning)
+            if (GameManager.Current.appState == AppState.Creation)
             {
                 _handleMouseInput();
             }
         }
 
-        private void _OnSimulationStarting()
-        {
-            _simulationRunning = true;
-        }
-        
-        private void _OnSimulationStopping()
-        {
-            _simulationRunning = false;
-        }
-        
         private void _handleMouseInput()
         {
-            if (MouseState.Current.mouseOverSheet)
+            if (GameManager.Current.mouseOverSheet)
             {
                 if (selectedComponent == 0)
                 {

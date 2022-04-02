@@ -116,7 +116,7 @@ namespace UI
 
         private void _handleMouseInput()
         {
-            if (MouseState.Current.mouseOverSheet)
+            if (GameManager.Current.mouseOverSheet)
             {
                 if (Input.GetMouseButtonDown(1))
                 {
