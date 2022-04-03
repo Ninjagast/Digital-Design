@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ab50266d2fac44fa80582067c8369b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activated: 0
+  _strength: 0
   gameObjectOn: {fileID: 1787644017265561313, guid: b8cca613628e8fa4ab27aa31183333a5, type: 3}
   gameObjectOff: {fileID: 7152075524828172005}
+  size: {x: 1, y: 1}
+  threshold: 1
+  upperCeiling: 999
