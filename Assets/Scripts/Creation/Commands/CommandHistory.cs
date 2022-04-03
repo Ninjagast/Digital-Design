@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Creation.Commands
 {
-    public class CommandHistory
+    public class CommandHistory: Object
     {
         private List<ICommand> _history;
         private List<ICommand> _undoList;
-        
+
+        public CommandHistory()
+        {
+            _history = new List<ICommand>();
+            _undoList = new List<ICommand>();
+        }
+
         public void Push(ICommand c)
         {
             c.Execute();

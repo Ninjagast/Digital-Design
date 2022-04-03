@@ -43,16 +43,6 @@ namespace UI
 
         private void _handleKeyboardInput()
         {
-//          Todo Remove this function from this place
-            if (Input.GetKey(KeyCode.L))
-            {
-                EventManager.Current.SimulationStarting();
-            }
-            if (Input.GetKey(KeyCode.P))
-            {
-                EventManager.Current.SimulationStopping();
-            }
-            
             float scrollSpeed = Input.GetAxis("Mouse ScrollWheel");
             
 //          directional movement
@@ -108,10 +98,12 @@ namespace UI
             if ((scrollSpeed > 0f || scrollSpeed < 0f) && Input.GetKey(KeyCode.LeftControl))
             {
                 mainCamera.orthographicSize -= (zoomSpeed * scrollSpeed);
+                if (mainCamera.orthographicSize < 0) //fixes weird 0 size camera or negative camera size shenanigans
+                {
+                    mainCamera.orthographicSize = 0.1f;
+                }
             }
-
             transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * _movementTime);
-            
         }
 
         private void _handleMouseInput()

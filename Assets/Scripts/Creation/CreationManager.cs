@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Creation.Commands;
 using Enums;
 using GlobalScripts;
 using UnityEngine;
@@ -13,20 +14,20 @@ namespace Creation
         public static CreationManager Current => _current;
         
         public int selectedComponent = 0;
-        public List<GameObject> buildableComponents; // 0: Wire | 1:Wire blueprint | 2:Not gate
+        public List<GameObject> buildableComponents; // 0: Wire | 1:Not gate
+        public GameObject wireBluePrint;
         public Camera mainCamera;
         public Tilemap tilemap;
         public GameObject wireBlueprintsContainer;
         
-        private Dictionary<Vector3, GameObject> _grid;
         private Dictionary<Vector3, GameObject> _blueprintGrid;
         private Vector3 _lastCell;
         private bool _deletedWire = false;
+        private bool _deleteTailWire = false;
         
         private void Awake()
         {
             _current = this;
-            _grid = new Dictionary<Vector3, GameObject>();
             _blueprintGrid = new Dictionary<Vector3, GameObject>();
         }
 
@@ -55,16 +56,16 @@ namespace Creation
                     
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (_grid.ContainsKey(pos))
+                        if (GameManager.Current.Grid.ContainsKey(pos))
                         {
-                            Destroy(_grid[pos]);
-                            _grid.Remove(pos);
+                            RemoveComponentCommand command = new RemoveComponentCommand(pos, 0);
+                            GameManager.Current.History.Push(command);
                             _deletedWire = true;
                             return;
                         }
                         if (!_blueprintGrid.ContainsKey(pos))
                         {
-                            GameObject newObject = Instantiate(buildableComponents[1], wireBlueprintsContainer.transform, true);
+                            GameObject newObject = Instantiate(wireBluePrint, wireBlueprintsContainer.transform, true);
                             newObject.transform.position = pos;
                             _blueprintGrid.Add(pos, newObject);
                             _lastCell = pos;
@@ -82,12 +83,19 @@ namespace Creation
                         {
                             if (!_blueprintGrid.ContainsKey(pos))
                             {
-                                GameObject newObject = Instantiate(buildableComponents[1], wireBlueprintsContainer.transform, true);
+                                GameObject newObject = Instantiate(wireBluePrint, wireBlueprintsContainer.transform, true);
                                 newObject.transform.position = pos;
                                 _blueprintGrid.Add(pos, newObject);
+                                _deleteTailWire = true;
                             }
                             else
                             {
+                                if (_deleteTailWire)
+                                {
+                                    _deleteTailWire = false;
+                                    Destroy(_blueprintGrid[_lastCell]);
+                                    _blueprintGrid.Remove(_lastCell);
+                                }
                                 Destroy(_blueprintGrid[pos]);
                                 _blueprintGrid.Remove(pos);
                             }
@@ -96,23 +104,20 @@ namespace Creation
                     }
                     if (Input.GetMouseButtonUp(0))
                     {
-                        if (!_deletedWire)
+                        if (!_deletedWire || _blueprintGrid.Count > 0)
                         {
-                            foreach (var bluePrintToBuild in _blueprintGrid)
-                            {
-                                if (!_grid.ContainsKey(bluePrintToBuild.Key))
-                                {
-                                    GameObject newObject = Instantiate(buildableComponents[0]);
-                                    newObject.transform.position = bluePrintToBuild.Key;
-                                    _grid.Add(bluePrintToBuild.Key, newObject);
-                                }
-                                Destroy(bluePrintToBuild.Value);
-                            }
+                            AddWiresCommand command = new AddWiresCommand(buildableComponents[selectedComponent], 
+                            new Dictionary<Vector3, GameObject>(_blueprintGrid));
+                            
+                            GameManager.Current.History.Push(command);
                             _blueprintGrid.Clear();
                         }
-
                         _deletedWire = false;
                     }
+                }
+                else
+                {
+                    
                 }
             }
         }
