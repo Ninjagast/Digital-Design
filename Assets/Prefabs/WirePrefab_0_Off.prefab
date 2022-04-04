@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2347680307301778946}
   - component: {fileID: 7203910625380013367}
-  - component: {fileID: -3175557262255067296}
   m_Layer: 0
   m_Name: WirePrefab_0_Off
   m_TagString: Untagged
@@ -85,21 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-3175557262255067296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7152075524828172005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32ab50266d2fac44fa80582067c8369b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _strength: 0
-  gameObjectOn: {fileID: 1787644017265561313, guid: b8cca613628e8fa4ab27aa31183333a5, type: 3}
-  gameObjectOff: {fileID: 7152075524828172005}
-  size: {x: 1, y: 1}
-  threshold: 1
-  upperCeiling: 999

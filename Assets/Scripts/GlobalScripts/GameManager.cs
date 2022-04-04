@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using componentCells;
 using Creation;
 using Creation.Commands;
 using Enums;
@@ -16,14 +17,13 @@ namespace GlobalScripts
         public CommandHistory History;
         public float tickSpeed;
         public bool mouseOverSheet;
-        public Dictionary<Vector3, GameObject> Grid;
-
-        private bool _yupppp = true;
-
+        public Dictionary<Vector3, IComponentCell> Grid;
+        public int pulseId = 0;
+        
         private void Awake()
         {
             _current = this;
-            Grid = new Dictionary<Vector3, GameObject>();
+            Grid = new Dictionary<Vector3, IComponentCell>();
         }
 
         // Start is called before the first frame update
@@ -39,11 +39,11 @@ namespace GlobalScripts
         void Update()
         {
 //          Todo Remove this function from this place
-            if (Input.GetKey(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && appState != AppState.Running)
             {
                 EventManager.Current.SimulationStarting();
             }
-            if (Input.GetKey(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P) && appState != AppState.Creation)
             {
                 EventManager.Current.SimulationStopping();
             }
@@ -60,24 +60,16 @@ namespace GlobalScripts
                     History.Redo();
                 }
             }
-            else if (appState == AppState.Running)
-            {
-                // if (_yupppp)
-                // {
-                //     foreach (var comp in GameManager.Current.Grid)
-                //     {
-                //         comp.Value.GetComponent<ComponentPrefab>().Activate();
-                //         _yupppp = false;
-                //         Debug.Log("turned on a wire in the line");
-                //         return;
-                //     }
-                // }
-            }
         }
         
         private void _OnSimulationStarting()
         {
             appState = AppState.Running;
+            foreach (var comp in Current.Grid)
+            {
+                comp.Value.Activate(-9876);
+                break;
+            }
         }
         
         private void _OnSimulationStopping()

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
+using componentCells;
 using GlobalScripts;
 using UnityEngine;
 
@@ -7,12 +8,14 @@ namespace Creation.Commands
 {
     public class AddWiresCommand : Object, ICommand
     {
-        private GameObject _componentPrefab;
+        private GameObject _wireOn;
+        private GameObject _wireOff;
         private Dictionary<Vector3, GameObject> _blueprintGrid;
         
-        public AddWiresCommand(GameObject component, Dictionary<Vector3, GameObject> blueprintGrid)
+        public AddWiresCommand(GameObject wireOn, GameObject wireOff, Dictionary<Vector3, GameObject> blueprintGrid)
         {
-            _componentPrefab = component;
+            _wireOn = wireOn;
+            _wireOff = wireOff;
             _blueprintGrid = blueprintGrid;
         }
 
@@ -22,7 +25,9 @@ namespace Creation.Commands
             {
                 if (GameManager.Current.Grid.ContainsKey(bluePrintToBuild.Key))
                 {
-                    Destroy(GameManager.Current.Grid[bluePrintToBuild.Key]);
+                    List<GameObject> wires = GameManager.Current.Grid[bluePrintToBuild.Key].GetComponents();
+                    Destroy(wires[0]);
+                    Destroy(wires[1]);
                     GameManager.Current.Grid.Remove(bluePrintToBuild.Key);
                 }
             }
@@ -34,9 +39,8 @@ namespace Creation.Commands
             {
                 if (!GameManager.Current.Grid.ContainsKey(bluePrintToBuild.Key))
                 {
-                    GameObject newObject = Instantiate(_componentPrefab);
-                    newObject.transform.position = bluePrintToBuild.Key;
-                    GameManager.Current.Grid.Add(bluePrintToBuild.Key, newObject);
+                    WireCell wireCell = new WireCell(Instantiate(_wireOn), Instantiate(_wireOff), bluePrintToBuild.Key);
+                    GameManager.Current.Grid.Add(bluePrintToBuild.Key, wireCell);
                 }
             }
         }
@@ -47,9 +51,8 @@ namespace Creation.Commands
             {
                 if (!GameManager.Current.Grid.ContainsKey(bluePrintToBuild.Key))
                 {
-                    GameObject newObject = Instantiate(_componentPrefab);
-                    newObject.transform.position = bluePrintToBuild.Key;
-                    GameManager.Current.Grid.Add(bluePrintToBuild.Key, newObject);
+                    WireCell wireCell = new WireCell(Instantiate(_wireOn), Instantiate(_wireOff), bluePrintToBuild.Key);
+                    GameManager.Current.Grid.Add(bluePrintToBuild.Key, wireCell);
                 }
                 Destroy(bluePrintToBuild.Value);
             }

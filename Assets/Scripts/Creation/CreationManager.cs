@@ -14,7 +14,7 @@ namespace Creation
         public static CreationManager Current => _current;
         
         public int selectedComponent = 0;
-        public List<GameObject> buildableComponents; // 0: Wire | 1:Not gate
+        public List<GameObject> buildableComponents; // 0: WireOff |1: WireOn | 2:Not gate
         public GameObject wireBluePrint;
         public Camera mainCamera;
         public Tilemap tilemap;
@@ -50,12 +50,12 @@ namespace Creation
             {
                 if (selectedComponent == 0)
                 {
-                    Vector3 pos = tilemap.WorldToCell(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-                    pos.x += 0.5f;
-                    pos.y += 0.5f;
-                    
                     if (Input.GetMouseButtonDown(0))
                     {
+                        Vector3 pos = tilemap.WorldToCell(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+                        pos.x += 0.5f;
+                        pos.y += 0.5f;
+                        
                         if (GameManager.Current.Grid.ContainsKey(pos))
                         {
                             RemoveComponentCommand command = new RemoveComponentCommand(pos, 0);
@@ -79,6 +79,10 @@ namespace Creation
                     }
                     if (Input.GetMouseButton(0) && !_deletedWire)
                     {
+                        Vector3 pos = tilemap.WorldToCell(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+                        pos.x += 0.5f;
+                        pos.y += 0.5f;
+                        
                         if (pos != _lastCell)
                         {
                             if (!_blueprintGrid.ContainsKey(pos))
@@ -106,7 +110,7 @@ namespace Creation
                     {
                         if (!_deletedWire || _blueprintGrid.Count > 0)
                         {
-                            AddWiresCommand command = new AddWiresCommand(buildableComponents[selectedComponent], 
+                            AddWiresCommand command = new AddWiresCommand(buildableComponents[1], buildableComponents[0], 
                             new Dictionary<Vector3, GameObject>(_blueprintGrid));
                             
                             GameManager.Current.History.Push(command);
@@ -117,7 +121,17 @@ namespace Creation
                 }
                 else
                 {
-                    
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Vector3 pos = tilemap.WorldToCell(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+                        pos.x += 0.5f;
+                        pos.y += 0.5f;
+                        
+                        if (!GameManager.Current.Grid.ContainsKey(pos))
+                        {
+                            
+                        }
+                    }
                 }
             }
         }

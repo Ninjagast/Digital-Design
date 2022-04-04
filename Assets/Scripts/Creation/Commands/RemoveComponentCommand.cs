@@ -19,9 +19,9 @@ namespace Creation.Commands
         {
             if (!GameManager.Current.Grid.ContainsKey(_pos))
             {
-                GameObject newObject = Instantiate(CreationManager.Current.buildableComponents[_componentId]);
-                newObject.transform.position = _pos;
-                GameManager.Current.Grid.Add(_pos, newObject);
+                // GameObject newObject = Instantiate(CreationManager.Current.buildableComponents[_componentId]);
+                // newObject.transform.position = _pos;
+                // GameManager.Current.Grid.Add(_pos, newObject);
             }
         }
 
@@ -34,8 +34,8 @@ namespace Creation.Commands
         {
             if (GameManager.Current.Grid.ContainsKey(_pos))
             {
-                Destroy(GameManager.Current.Grid[_pos]);
-                GameManager.Current.Grid.Remove(_pos);
+                // Destroy(GameManager.Current.Grid[_pos]);
+                // GameManager.Current.Grid.Remove(_pos);
             }
         }
     }
