@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using componentCells;
+using componentCells.BaseClasses;
 using GlobalScripts;
 using UnityEditor.Animations;
 using UnityEngine;

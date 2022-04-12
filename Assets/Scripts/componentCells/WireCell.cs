@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using componentCells.BaseClasses;
 using Creation;
 using GlobalScripts;
 using UnityEngine;
 
 namespace componentCells
 {
-    public class WireCell: IComponentCell
+    public class WireCell: ComponentBaseClass, IComponentCell
     {
         private GameObject _componentOn;
         private GameObject _componentOff;
@@ -62,7 +63,7 @@ namespace componentCells
 //              turn the cell on
                 _componentOff.SetActive(false);
                 _componentOn.SetActive(true);
-                CheckCells(true);
+                CheckCells(true, _lastPulse, _gridPos, _cellsToCheck);
             }
         }
 
@@ -80,7 +81,7 @@ namespace componentCells
 //                      turn the cell off
                         _componentOff.SetActive(true);
                         _componentOn.SetActive(false);
-                        CheckCells(false);
+                        CheckCells(false, _lastPulse, _gridPos, _cellsToCheck);
                     }
                 }
             }
@@ -93,25 +94,6 @@ namespace componentCells
                 _componentOn.SetActive(false);
             }
 
-        }
-
-        public void CheckCells(bool toggleOn) //This can ask for a pulseId if the runtime introduces weirdness
-        {
-            foreach (KeyValuePair<int, Vector3> cellPos in _cellsToCheck)
-            {
-                Vector3 cellToCheck = _gridPos + cellPos.Value;
-                if (GameManager.Current.Grid.ContainsKey(cellToCheck) && GameManager.Current.Grid[cellToCheck] != null)
-                {
-                    if (toggleOn)
-                    {
-                        GameManager.Current.Grid[cellToCheck].Activate(_lastPulse);
-                    }
-                    else
-                    {
-                        GameManager.Current.Grid[cellToCheck].DeActivate(_lastPulse);
-                    }
-                }
-            }
         }
     }
 }

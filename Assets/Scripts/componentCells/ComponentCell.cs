@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using componentCells.BaseClasses;
 using GlobalScripts;
 using UnityEngine;
 
 namespace componentCells
 {
-    public class ComponentCell: IComponentCell
+    public class ComponentCell: ComponentBaseClass, IComponentCell 
     {
         private GameObject _componentOn;
         private GameObject _componentOff;
@@ -13,7 +14,6 @@ namespace componentCells
         private int _threshold;
         private int _lastPulse = -999;
         private int _strength = 0; //The number of times this wire has been activated
-        private Vector3 _placementOffset;
         private bool _isOn = false;
         private Vector3 _outputPos;
         
@@ -23,7 +23,6 @@ namespace componentCells
             _componentOff = componentOff; 
             _upperCeiling = upperCeiling; 
             _threshold = threshold;
-            _placementOffset = placementOffset;
             _cellsToCheck = new Dictionary<int, Vector3>
             {
                 {1, new Vector3(1f, 0f, 0)},
@@ -97,25 +96,6 @@ namespace componentCells
             }
         }
 
-        public void CheckCells(bool toggleOn)
-        {
-            foreach (KeyValuePair<int, Vector3> cellPos in _cellsToCheck)
-            {
-                Vector3 cellToCheck = _outputPos + cellPos.Value;
-                if (GameManager.Current.Grid.ContainsKey(cellToCheck) && GameManager.Current.Grid[cellToCheck] != null)
-                {
-                    if (toggleOn)
-                    {
-                        GameManager.Current.Grid[cellToCheck].Activate(_lastPulse);
-                    }
-                    else
-                    {
-                        GameManager.Current.Grid[cellToCheck].DeActivate(_lastPulse);
-                    }
-                }
-            }
-        }
-        
         private void _turnCellOff(int pulseId)
         {
             _lastPulse = pulseId;
@@ -123,7 +103,7 @@ namespace componentCells
             _isOn = false;
             _componentOff.SetActive(true);
             _componentOn.SetActive(false);
-            CheckCells(false);
+            CheckCells(false, _lastPulse, _outputPos, _cellsToCheck);
         }
         
         private void _turnCellOn(int pulseId)
@@ -133,7 +113,7 @@ namespace componentCells
             _isOn = true;
             _componentOff.SetActive(false);
             _componentOn.SetActive(true);
-            CheckCells(true);
+            CheckCells(true, _lastPulse, _outputPos, _cellsToCheck);
         }
 
         public List<GameObject> GetComponents()
