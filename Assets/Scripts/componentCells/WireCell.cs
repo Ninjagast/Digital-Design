@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Creation;
 using GlobalScripts;
 using UnityEngine;
@@ -33,7 +34,7 @@ namespace componentCells
                 {3, new Vector3(0f, 1f, 0)}
             };
 
-            EventManager.Current.ONSimulationStopping += onSimulationStop;
+            EventManager.Current.ONSimulationStopping += ONSimulationStopping;
         }
 
         public List<GameObject> GetComponents()
@@ -41,13 +42,18 @@ namespace componentCells
             List<GameObject> returnList = new List<GameObject> {_componentOn, _componentOff};
             return returnList;
         }
-        
-        public void onSimulationStop()
+
+        public void RemoveFromEventListener()
         {
-            DeActivate(-1, false, true);
+            EventManager.Current.ONSimulationStopping -= ONSimulationStopping;
         }
 
-        public void Activate(int pulseId, bool combo = false)
+        public void ONSimulationStopping()
+        {
+            DeActivate(-1, true);
+        }
+
+        public void Activate(int pulseId)
         {
             if (pulseId != _lastPulse)
             {
@@ -60,7 +66,7 @@ namespace componentCells
             }
         }
 
-        public void DeActivate(int pulseId, bool combo = false, bool shutdown = false)
+        public void DeActivate(int pulseId, bool shutdown = false)
         {
             if (!shutdown)
             {
@@ -74,7 +80,7 @@ namespace componentCells
 //                      turn the cell off
                         _componentOff.SetActive(true);
                         _componentOn.SetActive(false);
-                        CheckCells(true);
+                        CheckCells(false);
                     }
                 }
             }
@@ -94,7 +100,7 @@ namespace componentCells
             foreach (KeyValuePair<int, Vector3> cellPos in _cellsToCheck)
             {
                 Vector3 cellToCheck = _gridPos + cellPos.Value;
-                if (GameManager.Current.Grid.ContainsKey(cellToCheck))
+                if (GameManager.Current.Grid.ContainsKey(cellToCheck) && GameManager.Current.Grid[cellToCheck] != null)
                 {
                     if (toggleOn)
                     {
@@ -107,7 +113,5 @@ namespace componentCells
                 }
             }
         }
-        
-        
     }
 }

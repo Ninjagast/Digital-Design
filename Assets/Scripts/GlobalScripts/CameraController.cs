@@ -1,20 +1,19 @@
-using System;
-using GlobalScripts;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 //todo Need to grab hotkeys/speed values from the user options save
-namespace UI
+namespace GlobalScripts
 {
     public class CameraController : MonoBehaviour
     {
         private static CameraController _current;
         public static CameraController Current => _current;
-
+        
+        [Header("Camera options")]
         public float movementSpeed;
         public float scrollMovementSpeed;
         public float zoomSpeed;
 
+        [Header("Reference to camera")]
         public Camera mainCamera;
         
         private float _movementTime = 6;
@@ -108,7 +107,7 @@ namespace UI
 
         private void _handleMouseInput()
         {
-            if (GameManager.Current.mouseOverSheet)
+            if (GameManager.Current.MouseOverSheet)
             {
                 if (Input.GetMouseButtonDown(1))
                 {

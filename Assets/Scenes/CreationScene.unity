@@ -1027,11 +1027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed8336b538145d40a793c2544e1696b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appState: 0
-  History: {fileID: 0}
-  tickSpeed: 60
-  mouseOverSheet: 0
-  pulseId: 0
 --- !u!1 &315189587
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,8 +2501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10611bc7943e4f14da422c40c0f6dc23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0.3
-  scrollMovementSpeed: 3
+  movementSpeed: 0.1
+  scrollMovementSpeed: 5
   zoomSpeed: 3
   mainCamera: {fileID: 519420031}
 --- !u!1 &544571121
@@ -46943,7 +46938,6 @@ MonoBehaviour:
   tabIdle: {fileID: 21300000, guid: 4c0d107c7b75cd246b1c0a74305005ad, type: 3}
   tabHover: {fileID: 21300000, guid: 52aedb8caaddb134ba2c0d8960fc7172, type: 3}
   tabActive: {fileID: 21300000, guid: 9aa4ffb49053fbd489b2a2665febd3da, type: 3}
-  selectedTab: {fileID: 0}
   objectsToSwap:
   - {fileID: 315189587}
   - {fileID: 1527091158}
@@ -48429,10 +48423,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158fe7c87ca63b341988a33f9ecdd2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedComponent: 0
-  buildableComponents:
+  selectedComponent: -1
+  selectedWire: 0
+  wires:
   - {fileID: 7152075524828172005, guid: 5c51e29a71ef4344ead186f1b4349559, type: 3}
+  - {fileID: 1787644017265561313, guid: b8cca613628e8fa4ab27aa31183333a5, type: 3}
+  components:
   - {fileID: 5727554809970592432, guid: 9b418a1abf8e8b14f81a3f0009037d37, type: 3}
+  - {fileID: 1969978762220015067, guid: 9c58902c32922284fbf27dcc4bfe71c6, type: 3}
+  - {fileID: 2778418291605347411, guid: 8490c5361d072e641a41bf63f4346a4f, type: 3}
+  - {fileID: 1864826190446086266, guid: f663a20003b200645b0f9e2bd8539f8e, type: 3}
+  - {fileID: 2312371054745720712, guid: eae8ca875d9a7074ebd8b883fd04f2f6, type: 3}
+  - {fileID: 4487577379101569471, guid: c8db83a72ded0f847b791db8430bc56e, type: 3}
+  - {fileID: 8903044549118146797, guid: 1adae276080c49543a58415c560e184a, type: 3}
+  - {fileID: 6863638652322085205, guid: 330bda2390f2e5d44ba80a3eb6e2ead2, type: 3}
   wireBluePrint: {fileID: 1607027339537370151, guid: 045f9789247e70e4db591c9287ba3f7f, type: 3}
   mainCamera: {fileID: 519420031}
   tilemap: {fileID: 861753217}
@@ -49753,7 +49757,6 @@ MonoBehaviour:
   tabIdle: {fileID: 21300000, guid: 4c0d107c7b75cd246b1c0a74305005ad, type: 3}
   tabHover: {fileID: 21300000, guid: 52aedb8caaddb134ba2c0d8960fc7172, type: 3}
   tabActive: {fileID: 21300000, guid: 9aa4ffb49053fbd489b2a2665febd3da, type: 3}
-  selectedTab: {fileID: 0}
   objectsToSwap:
   - {fileID: 180257905}
 --- !u!1 &2044422012

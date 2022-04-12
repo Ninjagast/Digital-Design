@@ -7,6 +7,7 @@ namespace UI
     [RequireComponent(typeof(Image))]
     public class Tab : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
+        
         public TabGroup tabGroup;
         public Image background;
 

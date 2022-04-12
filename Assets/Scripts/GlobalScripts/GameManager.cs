@@ -13,12 +13,13 @@ namespace GlobalScripts
         private static GameManager _current;
         public static GameManager Current => _current;
 
-        public AppState appState;
-        public CommandHistory History;
-        public float tickSpeed;
-        public bool mouseOverSheet;
-        public Dictionary<Vector3, IComponentCell> Grid;
-        public int pulseId = 0;
+        
+        [NonSerialized] public AppState AppState;
+        [NonSerialized] public CommandHistory History;
+        [NonSerialized] public float TickSpeed;
+        [NonSerialized] public bool MouseOverSheet;
+        [NonSerialized] public Dictionary<Vector3, IComponentCell> Grid;
+        [NonSerialized] public int PulseId = 0;
         
         private void Awake()
         {
@@ -32,30 +33,34 @@ namespace GlobalScripts
             EventManager.Current.ONSimulationStarting += _OnSimulationStarting;
             EventManager.Current.ONSimulationStopping += _OnSimulationStopping;
             History = new CommandHistory();
-            appState = AppState.Creation;
+            AppState = AppState.Creation;
         }
 
         // Update is called once per frame
         void Update()
         {
-//          Todo Remove this function from this place
-            if (Input.GetKeyDown(KeyCode.L) && appState != AppState.Running)
+            _handleKeyboardInput();
+        }
+
+        private void _handleKeyboardInput()
+        {
+            if (Input.GetKeyDown(KeyCode.L) && AppState != AppState.Running)
             {
                 EventManager.Current.SimulationStarting();
             }
-            if (Input.GetKeyDown(KeyCode.P) && appState != AppState.Creation)
+            if (Input.GetKeyDown(KeyCode.P) && AppState != AppState.Creation)
             {
                 EventManager.Current.SimulationStopping();
             }
             
-            if (appState == AppState.Creation)
+            if (AppState == AppState.Creation)
             {
-                if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKeyDown(KeyCode.Z) ) //&& Input.GetKey(KeyCode.LeftControl)
                 {
                     History.Undo();
                 }
 
-                if (Input.GetKeyDown(KeyCode.Y) && Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKeyDown(KeyCode.Y)) // && Input.GetKey(KeyCode.LeftControl)
                 {
                     History.Redo();
                 }
@@ -64,17 +69,12 @@ namespace GlobalScripts
         
         private void _OnSimulationStarting()
         {
-            appState = AppState.Running;
-            foreach (var comp in Current.Grid)
-            {
-                comp.Value.Activate(-9876);
-                break;
-            }
+            AppState = AppState.Running;
         }
         
         private void _OnSimulationStopping()
         {
-            appState = AppState.Creation;
+            AppState = AppState.Creation;
         }
     }
 }
