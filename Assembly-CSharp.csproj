@@ -50,7 +50,7 @@
      <Compile Include="Assets\Scripts\GlobalScripts\SheetAreaController.cs" />
      <Compile Include="Assets\Scripts\componentCells\BaseClasses\IComponentCell.cs" />
      <Compile Include="Assets\Scripts\UI\TabGroup.cs" />
-     <Compile Include="Assets\Scripts\Creation\Commands\CommandHistory.cs" />
+     <Compile Include="Assets\Scripts\Creation\CommandHistory.cs" />
      <Compile Include="Assets\Scripts\Creation\Commands\AddWiresCommand.cs" />
      <Compile Include="Assets\Scripts\Enums\AppState.cs" />
      <Compile Include="Assets\Scripts\GlobalScripts\CameraController.cs" />

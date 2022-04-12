@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Creation.Commands;
 using UnityEngine;
 
-namespace Creation.Commands
+namespace Creation
 {
     public class CommandHistory: Object
     {

@@ -31,6 +31,7 @@ namespace Creation
         private Vector3 _lastCell;
         private bool _deletedWire = false;
         private bool _deleteTailWire = false;
+        private bool _closedTabs = false;
         
         private void Awake()
         {
@@ -56,16 +57,23 @@ namespace Creation
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        _handleInitialWireMousePress();
+                        if (!_resetTabsIfOpen())
+                        {
+                            _handleInitialWireMousePress();
+                        }
+                        else
+                        {
+                            _closedTabs = true;
+                        }
                     }
-                    if (Input.GetMouseButton(0) && !_deletedWire)
+                    if (Input.GetMouseButton(0) && !_deletedWire && !_closedTabs)
                     {
                         _handleFancyWireMouseDrag();
                     }
                     if (Input.GetMouseButtonUp(0))
                     {
 //                      we build the wires in the blueprint if there are any and if we have not deleted a wire
-                        if (!_deletedWire || _blueprintGrid.Count > 0)
+                        if (!_deletedWire || _blueprintGrid.Count > 0 && !_closedTabs)
                         {
                             AddWiresCommand command = new AddWiresCommand(wires[1], wires[0], 
                             new Dictionary<Vector3, GameObject>(_blueprintGrid));
@@ -73,13 +81,15 @@ namespace Creation
                             GameManager.Current.History.Push(command);
                             _blueprintGrid.Clear();
                         }
+
+                        _closedTabs = false;
                         _deletedWire = false;
                     }
                 }
                 else
                 {
 //                  we have to place a component
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && !_resetTabsIfOpen())
                     {
                         Vector3 pos = tilemap.WorldToCell(mainCamera.ScreenToWorldPoint(Input.mousePosition));
                         pos.x += 0.5f;
@@ -93,7 +103,8 @@ namespace Creation
 
                             if (_placeInGrid(gridComponent))
                             {
-                                AddNotComponent command = new AddNotComponent(components[1], components[0], gridComponent, 1, 0, new Vector3(0.50f,0,0));
+                                AddNotComponent command = new AddNotComponent(components[1], components[0], 
+                                    gridComponent, 1, 0, new Vector3(0.50f,0,0));
                                 GameManager.Current.History.Push(command);
                             }
                         }
@@ -222,6 +233,17 @@ namespace Creation
             }
 
             return true;
+        }
+
+        private bool _resetTabsIfOpen()
+        {
+            if (SheetAreaController.Current.isOpenTab)
+            {
+                EventManager.Current.ClickSheetArea();
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GlobalScripts;
 using UnityEngine;
 
 namespace UI
@@ -17,8 +18,27 @@ namespace UI
         
         [Header("The windows each tab opens. Linked on Key")]
         public List<GameObject> objectsToSwap;
+
+        [Header("Reference to the sheetController and differentiates the tab groups")] 
+        public bool templateTab;
+        public GameObject sheetAreaController;
         
         private Tab _selectedTab;
+
+        private void Awake()
+        {
+            EventManager.Current.ONClickSheetArea += _hardResetTabs;
+        }
+
+        private void _hardResetTabs()
+        {
+            if (_selectedTab != null)
+            {
+                _selectedTab = null;
+                ResetTabs();
+                UpdateTabWindows(-1);
+            }
+        }
 
 //      subscribes a tab to a tabgroup
         public void Subscribe(Tab tab)
@@ -51,11 +71,14 @@ namespace UI
 //      Gets called when a tab gets clicked
         public void OnTabSelected(Tab tab)
         {
+            SheetAreaController.Current.OnTabOpen(templateTab);
+
             if (_selectedTab == tab)
             {
                 _selectedTab = null;
                 ResetTabs();
                 UpdateTabWindows(-1);
+                SheetAreaController.Current.OnTabClose(templateTab);
             }
             else
             {
@@ -66,10 +89,8 @@ namespace UI
             }
         }
 
-        public void ResetTabs(bool hardReset = false)
+        public void ResetTabs()
         {
-            if (hardReset) _selectedTab = null;
-            
             foreach (Tab tab in tabs)
             {
                 if ((_selectedTab != null && tab == _selectedTab))
@@ -78,6 +99,11 @@ namespace UI
                 }
 
                 tab.background.sprite = tabIdle;
+            }
+
+            if (_selectedTab == null)
+            {
+                SheetAreaController.Current.OnTabClose(templateTab);
             }
         }
 

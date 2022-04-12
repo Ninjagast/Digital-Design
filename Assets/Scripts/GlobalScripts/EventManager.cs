@@ -28,5 +28,12 @@ namespace GlobalScripts
         {
             ONSimulationStopping?.Invoke();
         }
+
+        public event Action ONClickSheetArea;
+
+        public void ClickSheetArea()
+        {
+            ONClickSheetArea?.Invoke();
+        }
     }
 }
