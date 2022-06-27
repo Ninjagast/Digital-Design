@@ -44,7 +44,7 @@ namespace componentCells
             _isOn = false;
         }
 
-        public void Activate(int pulseId)
+        public void Activate(int pulseId, Vector3 pos)
         {
             if (pulseId == -17)
             {
@@ -53,7 +53,7 @@ namespace componentCells
             return;
         }
 
-        public void DeActivate(int pulseId, bool shutdown = false)
+        public void DeActivate(int pulseId, Vector3 pos, bool shutdown = false)
         {
             return;
         }
@@ -85,20 +85,20 @@ namespace componentCells
             return -1;
         }
 
-        public void OnClick()
+        private void OnClick()
         {
-            GameManager.Current.PulseId += 1;
+            GameManager.Current.pulseId += 1;
             if (_isOn)
             {
                 _componentOff.SetActive(true);
                 _componentOn.SetActive(false);
-                CheckCells(false, GameManager.Current.PulseId, _pos, _cellsToCheck);
+                CheckCells(false, GameManager.Current.pulseId, _pos, _cellsToCheck);
             }
             else
             {
                 _componentOff.SetActive(false);
                 _componentOn.SetActive(true);
-                CheckCells(true, GameManager.Current.PulseId, _pos, _cellsToCheck);
+                CheckCells(true, GameManager.Current.pulseId, _pos, _cellsToCheck);
             }
             _isOn = !_isOn;
         }

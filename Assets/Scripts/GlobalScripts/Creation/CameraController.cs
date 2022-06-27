@@ -107,7 +107,7 @@ namespace GlobalScripts.Creation
 
         private void _handleMouseInput()
         {
-            if (GameManager.Current.MouseOverSheet)
+            if (GameManager.Current.mouseOverSheet)
             {
                 if (Input.GetMouseButtonDown(1))
                 {

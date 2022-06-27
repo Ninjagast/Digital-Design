@@ -18,6 +18,7 @@ namespace componentCells
         private bool _isOn = false;
         private Vector3 _outputPos;
         private ComponentTypes _type = ComponentTypes.NotComponent;
+        private Vector3 _inputPos;
         
         
         public NotComponentCell(GameObject notComponentOn, GameObject notComponentOff, Vector3 position, int upperCeiling, int threshold, Vector3 placementOffset)
@@ -34,6 +35,7 @@ namespace componentCells
             _notComponentOn.SetActive(false);
             _notComponentOff.transform.position = position + placementOffset;
             _notComponentOn.transform.position = position + placementOffset;
+            _inputPos = position;
             
             EventManager.Current.ONSimulationStarting += ONSimulationStarting;
             EventManager.Current.ONSimulationStopping += ONSimulationStopping;
@@ -41,16 +43,16 @@ namespace componentCells
 
         private void ONSimulationStarting()
         {
-            GameManager.Current.PulseId += 1;
-            Activate(GameManager.Current.PulseId);
+            GameManager.Current.pulseId += 1;
+            Activate(GameManager.Current.pulseId, _inputPos);
         }
         
         public void ONSimulationStopping()
         {
-            DeActivate(-1, true);
+            DeActivate(-1, _inputPos, true);
         }
         
-        public void Activate(int pulseId)
+        public void Activate(int pulseId, Vector3 pos)
         {
             if (pulseId != _lastPulse)
             {
@@ -72,7 +74,7 @@ namespace componentCells
             }
         }
 
-        public void DeActivate(int pulseId, bool shutdown = false)
+        public void DeActivate(int pulseId,Vector3 pos, bool shutdown = false)
         {
             if (!shutdown)
             {
@@ -81,7 +83,7 @@ namespace componentCells
                     _strength -= 1;
                     if (_strength < _upperCeiling && _strength >= _threshold)
                     {
-                        if (_isOn)
+                        if (!_isOn)
                         {
                             _turnCellOn(pulseId);
                         }

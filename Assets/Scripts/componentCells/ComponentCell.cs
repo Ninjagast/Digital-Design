@@ -41,10 +41,10 @@ namespace componentCells
         
         public void ONSimulationStopping()
         {
-            DeActivate(-1, true);
+            DeActivate(-1, Vector3.zero,true);
         }
 
-        public void Activate(int pulseId)
+        public void Activate(int pulseId, Vector3 pos)
         {
             _strength += 1;
             if (_upperCeiling != -1 && _strength >= _upperCeiling)
@@ -63,7 +63,7 @@ namespace componentCells
             }
         }
 
-        public void DeActivate(int pulseId, bool shutdown = false)
+        public void DeActivate(int pulseId, Vector3 pos, bool shutdown = false)
         {
             if (!shutdown)
             {

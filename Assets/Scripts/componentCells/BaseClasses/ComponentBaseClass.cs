@@ -7,7 +7,7 @@ namespace componentCells.BaseClasses
 {
     public abstract class ComponentBaseClass
     {
-        public void CheckCells(bool toggleOn, int lastPulse, Vector3 outputPos, Dictionary<int, Vector3> cellsToCheck)
+        protected void CheckCells(bool toggleOn, int lastPulse, Vector3 outputPos, Dictionary<int, Vector3> cellsToCheck)
         {
             foreach (KeyValuePair<int, Vector3> cellPos in cellsToCheck)
             {
@@ -16,11 +16,11 @@ namespace componentCells.BaseClasses
                 {
                     if (toggleOn)
                     {
-                        GameManager.Current.Grid[cellToCheck].Activate(lastPulse);
+                        GameManager.Current.Grid[cellToCheck].Activate(lastPulse, outputPos + cellPos.Value);
                     }
                     else
                     {
-                        GameManager.Current.Grid[cellToCheck].DeActivate(lastPulse);
+                        GameManager.Current.Grid[cellToCheck].DeActivate(lastPulse, outputPos + cellPos.Value);
                     }
                 }
             }

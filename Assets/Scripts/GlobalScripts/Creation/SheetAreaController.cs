@@ -19,12 +19,12 @@ namespace GlobalScripts.Creation
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            GameManager.Current.MouseOverSheet = true;
+            GameManager.Current.mouseOverSheet = true;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            GameManager.Current.MouseOverSheet = false;
+            GameManager.Current.mouseOverSheet = false;
         }
 
         public void OnTabOpen(bool templateBar)

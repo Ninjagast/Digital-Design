@@ -16,18 +16,22 @@ namespace GlobalScripts.Creation
         private static GameManager _current;
         public static GameManager Current => _current;
 
-        
-        [NonSerialized] public AppState AppState;
-        [NonSerialized] public CommandHistory History;
-        [NonSerialized] public float TickSpeed;
-        [NonSerialized] public bool MouseOverSheet;
+        public GameObject saveCompletedPopUp;
+        public GameObject startSimulationPopUp;
+        public GameObject stopSimulationPopUp;
+        public GameObject saveFailedPopUp;
+        [NonSerialized] public AppState appState;
+        [NonSerialized] public CommandHistory history;
+        [NonSerialized] public float tickSpeed;
+        [NonSerialized] public bool mouseOverSheet;
         [NonSerialized] public Dictionary<Vector3, IComponentCell> Grid;
-        [NonSerialized] public int PulseId = 0;
-        
-        [NonSerialized] private Dictionary<Vector3, IComponentCell> _buttons = new Dictionary<Vector3, IComponentCell>();
-        [NonSerialized] private Dictionary<Vector3, IComponentCell> _components = new Dictionary<Vector3, IComponentCell>();
-        [NonSerialized] private Camera _camera;
-        [NonSerialized] private Tilemap _tileMap;
+        [NonSerialized] public int pulseId = 0;
+
+        private int _popUpTimer = 0;
+        private Dictionary<Vector3, IComponentCell> _buttons = new Dictionary<Vector3, IComponentCell>();
+        private Dictionary<Vector3, IComponentCell> _components = new Dictionary<Vector3, IComponentCell>();
+        private Camera _camera;
+        private Tilemap _tileMap;
         
         private void Awake()
         {
@@ -40,8 +44,8 @@ namespace GlobalScripts.Creation
         {
             EventManager.Current.ONSimulationStarting += _OnSimulationStarting;
             EventManager.Current.ONSimulationStopping += _OnSimulationStopping;
-            History = new CommandHistory();
-            AppState = AppState.Creation;
+            history = new CommandHistory();
+            appState = AppState.Creation;
             _camera = CameraController.Current.mainCamera;
             _tileMap = CreationManager.Current.tilemap;
             LoadProject();
@@ -50,6 +54,18 @@ namespace GlobalScripts.Creation
         // Update is called once per frame
         void Update()
         {
+            if (_popUpTimer > 0)
+            {
+                _popUpTimer -= 1;
+                if (_popUpTimer == 0)
+                {
+                    saveCompletedPopUp.SetActive(false);
+                    startSimulationPopUp.SetActive(false);
+                    stopSimulationPopUp.SetActive(false);
+                    saveFailedPopUp.SetActive(false);
+                }
+            }
+            
             _handleKeyboardInput();
             _handleMouseButtonPress();
         }
@@ -97,6 +113,13 @@ namespace GlobalScripts.Creation
                                 gridNotComponent, 1, 0, new Vector3(0.50f,0,0));
                             notComponentCommand.Execute();
                             break;
+                        
+                        case ComponentTypes.SevenSegment:
+                            Dictionary<Vector3, string> gridSevenSegment = CreationManager.GenerateGridComponent(component.position, 1);
+                            AddSevenSegment command = new AddSevenSegment(CreationManager.Current.components[10], CreationManager.Current.sevenSegmentBulbs,
+                                gridSevenSegment, new Vector3(5.5f, 6.0f, 0f), 0);
+                            command.Execute();
+                            break;
                     }
                 }
             }
@@ -104,16 +127,20 @@ namespace GlobalScripts.Creation
         
         private void _handleKeyboardInput()
         {
-            if (Input.GetKeyDown(KeyCode.L) && AppState != AppState.Running)
+            if (Input.GetKeyDown(KeyCode.L) && appState != AppState.Running)
             {
                 EventManager.Current.SimulationStarting();
+                _popUpTimer = 500;
+                startSimulationPopUp.SetActive(true);
             }
-            if (Input.GetKeyDown(KeyCode.P) && AppState != AppState.Creation)
+            if (Input.GetKeyDown(KeyCode.P) && appState != AppState.Creation)
             {
                 EventManager.Current.SimulationStopping();
+                _popUpTimer = 500;
+                stopSimulationPopUp.SetActive(true);
             }
             
-            if (AppState == AppState.Creation)
+            if (appState == AppState.Creation)
             {
                 if (Input.GetKeyDown(KeyCode.U))
                 {
@@ -122,12 +149,12 @@ namespace GlobalScripts.Creation
                 
                 if (Input.GetKeyDown(KeyCode.Z) ) //&& Input.GetKey(KeyCode.LeftControl)
                 {
-                    History.Undo();
+                    history.Undo();
                 }
 
                 if (Input.GetKeyDown(KeyCode.Y)) // && Input.GetKey(KeyCode.LeftControl)
                 {
-                    History.Redo();
+                    history.Redo();
                 }
             }
         }
@@ -166,18 +193,20 @@ namespace GlobalScripts.Creation
 
             if (SaveManager.Current.OnSave())
             {
-                return;
+                saveCompletedPopUp.SetActive(true);
+                _popUpTimer = 500;
             }
             else
             {
-                //todo handle saving failure more elegantly
-                return;
+                saveFailedPopUp.SetActive(true);
+                _popUpTimer = 500;
+                //todo might give the user a bit more info on why saving failed
             }
         }
 
         private void _handleMouseButtonPress()
         {
-            if (AppState == AppState.Running)
+            if (appState == AppState.Running)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -188,7 +217,7 @@ namespace GlobalScripts.Creation
                     {
                         if (button.Key == pos)
                         {
-                            button.Value.Activate(-17);
+                            button.Value.Activate(-17, pos);
                         }
                     }
                 }
@@ -217,12 +246,12 @@ namespace GlobalScripts.Creation
         
         private void _OnSimulationStarting()
         {
-            AppState = AppState.Running;
+            appState = AppState.Running;
         }
         
         private void _OnSimulationStopping()
         {
-            AppState = AppState.Creation;
+            appState = AppState.Creation;
         }
     }
 }

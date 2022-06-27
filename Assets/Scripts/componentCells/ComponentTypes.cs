@@ -6,6 +6,7 @@
         Wire,
         NotComponent,
         Component,
-        NoneType
+        NoneType,
+        SevenSegment
     }
 }

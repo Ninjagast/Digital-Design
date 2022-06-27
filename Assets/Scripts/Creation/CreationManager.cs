@@ -27,6 +27,7 @@ namespace Creation
         public Camera mainCamera;
         public Tilemap tilemap;
         public GameObject wireBlueprintsContainer;
+        public List<GameObject> sevenSegmentBulbs;
         
         private Dictionary<Vector3, GameObject> _blueprintGrid;
         private Vector3 _lastCell;
@@ -42,7 +43,7 @@ namespace Creation
 
         void Update()
         {
-            if (GameManager.Current.AppState == AppState.Creation)
+            if (GameManager.Current.appState == AppState.Creation)
             {
                 _handleMouseInput();
             }
@@ -50,7 +51,7 @@ namespace Creation
 
         private void _handleMouseInput()
         {
-            if (GameManager.Current.MouseOverSheet)
+            if (GameManager.Current.mouseOverSheet)
             {
 //              we have to place a wire
 //              Make this based of the SelectedWire
@@ -79,7 +80,7 @@ namespace Creation
                             AddWiresCommand command = new AddWiresCommand(wires[1], wires[0], 
                             new Dictionary<Vector3, GameObject>(_blueprintGrid));
                             
-                            GameManager.Current.History.Push(command);
+                            GameManager.Current.history.Push(command);
                             _blueprintGrid.Clear();
                         }
 
@@ -95,6 +96,8 @@ namespace Creation
                         Vector3 pos = tilemap.WorldToCell(mainCamera.ScreenToWorldPoint(Input.mousePosition));
                         pos.x += 0.5f;
                         pos.y += 0.5f;
+                        
+                        
                         if (selectedComponent == 0) // not gate
                         {
                             Dictionary<Vector3, string> gridComponent = new Dictionary<Vector3, string>();
@@ -106,7 +109,7 @@ namespace Creation
                             {
                                 AddNotComponent command = new AddNotComponent(components[1], components[0], 
                                     gridComponent, 1, 0, new Vector3(0.50f,0,0));
-                                GameManager.Current.History.Push(command);
+                                GameManager.Current.history.Push(command);
                             }
                         }
                         else if (selectedComponent == 2) // or gate
@@ -116,9 +119,8 @@ namespace Creation
                             {
                                 AddComponent command = new AddComponent(components[3], components[2],
                                     gridComponent, -1, 1, new Vector3(1, 1, 0), 2);
-                                GameManager.Current.History.Push(command);
+                                GameManager.Current.history.Push(command);
                             }
-
                         }
                         else if (selectedComponent == 4) // and gate
                         {
@@ -127,7 +129,7 @@ namespace Creation
                             {
                                 AddComponent command = new AddComponent(components[5], components[4],
                                     gridComponent, -1, 2, new Vector3(1, 1, 0), 4);
-                                GameManager.Current.History.Push(command);
+                                GameManager.Current.history.Push(command);
                             }
                         }
                         else if (selectedComponent == 6) // xor gate
@@ -137,7 +139,7 @@ namespace Creation
                             {
                                 AddComponent command = new AddComponent(components[7], components[6],
                                     gridComponent, 2, 1, new Vector3(1, 1, 0), 6);
-                                GameManager.Current.History.Push(command);
+                                GameManager.Current.history.Push(command);
                             }
                         }
                         else if (selectedComponent == 8) //toggle Button
@@ -147,7 +149,17 @@ namespace Creation
                             {
                                 AddButtonComponent command = new AddButtonComponent(components[9], components[8],
                                     gridComponent, Vector3.zero, 1);
-                                GameManager.Current.History.Push(command);
+                                GameManager.Current.history.Push(command);
+                            }
+                        }
+                        else if (selectedComponent == 10)
+                        {
+                            Dictionary<Vector3, string> gridComponent = GenerateGridComponent(pos, 1);
+                            if (_placeInGrid(gridComponent))
+                            {
+                                AddSevenSegment command = new AddSevenSegment(components[10], sevenSegmentBulbs,
+                                    gridComponent, new Vector3(5.5f, 6.0f, 0f), 0);
+                                GameManager.Current.history.Push(command);
                             }
                         }
                     }
@@ -171,6 +183,31 @@ namespace Creation
                 gridComponent.Add(pos + new Vector3(2,2,0), "claimed");
                 return gridComponent;
             }
+            else if (id == 1)
+            {
+                gridComponent.Add(pos, "a");
+                gridComponent.Add(pos + new Vector3(0,1,0), "claimed");
+                gridComponent.Add(pos + new Vector3(0,2,0), "b");
+                gridComponent.Add(pos + new Vector3(0,3,0), "claimed");
+                gridComponent.Add(pos + new Vector3(0,4,0), "c");
+                gridComponent.Add(pos + new Vector3(0,5,0), "claimed");
+                gridComponent.Add(pos + new Vector3(0,6,0), "d");
+                gridComponent.Add(pos + new Vector3(0,7,0), "claimed");
+                gridComponent.Add(pos + new Vector3(0,8,0), "e");
+                gridComponent.Add(pos + new Vector3(0,9,0), "claimed");
+                gridComponent.Add(pos + new Vector3(0,10,0), "f");
+                gridComponent.Add(pos + new Vector3(0,11,0), "claimed");
+                gridComponent.Add(pos + new Vector3(0,12,0), "g");
+
+                for (int y = 0; y < 13; y++)
+                {
+                    for (int x = 1; x < 12; x++)
+                    {
+                        gridComponent.Add(pos + new Vector3(x,y,0), "claimed");
+                    }
+                }
+                return gridComponent;
+            }
             else
             {
                 throw new Exception($"this grid component: {id} does not exist");
@@ -186,7 +223,7 @@ namespace Creation
             if (GameManager.Current.Grid.ContainsKey(pos))
             {
                 RemoveWireCommand command = new RemoveWireCommand(pos, 0);
-                GameManager.Current.History.Push(command);
+                GameManager.Current.history.Push(command);
                 _deletedWire = true;
                 return;
             }
