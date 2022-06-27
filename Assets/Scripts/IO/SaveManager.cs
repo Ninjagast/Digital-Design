@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -26,22 +27,38 @@ namespace IO
                 }
             }
         }
-        
+
+        private string _currentProjectName;
         private readonly string _saveDir = Application.persistentDataPath + "/saves";
 
-        public void OnSave()
+        public bool OnSave()
         {
-            
+            SavedData saveData = new SavedData
+            {
+                buttons = SaveData.Current.buttons, 
+                components = SaveData.Current.components
+            };
+            return Serializer.Save(_currentProjectName, saveData);
         }
 
         public bool CreateNewSave(string projectName)
         {
+            if (projectName.Length < 1)
+            {
+                return false;
+            }
             if (!Directory.Exists(_saveDir))
             {
                 Directory.CreateDirectory(_saveDir);
             }
-            
-            return Serializer.Save(projectName, SaveData.Current);
+
+            _currentProjectName = projectName;
+            SavedData saveData = new SavedData
+            {
+                buttons = new List<ButtonData>(), 
+                components = new List<ComponentData>()
+            };
+            return Serializer.Save(projectName, saveData);
         }
 
         public List<KeyValuePair<string, string>> GetLoadFiles()
@@ -71,8 +88,10 @@ namespace IO
             return returnArray;
         }
 
-        public void OnLoad(string fileLocation)
+        public SavedData OnLoad(string fileLocation, string projectName)
         {
+            _currentProjectName = projectName.Split(".")[0];
+            return Serializer.Load(fileLocation);
             
         }
     }

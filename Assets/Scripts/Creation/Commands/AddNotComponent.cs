@@ -43,6 +43,7 @@ namespace Creation.Commands
                         Destroy(components[0]);
                         Destroy(components[1]);
                         componentCell.RemoveFromEventListener();
+                        GameManager.Current.RemoveComponent(gridComponent.Key);
                         destroyedPrefabs = true;
                     }
                     GameManager.Current.Grid.Remove(gridComponent.Key);
@@ -70,6 +71,7 @@ namespace Creation.Commands
                         _notComponentCell =
                             new NotComponentCell(Instantiate(_notComponentOn), Instantiate(_notComponentOff), gridComponent.Key,_upperCeiling, _threshold, _placementOffset);
                         GameManager.Current.Grid.Add(gridComponent.Key, _notComponentCell);
+                        GameManager.Current.AddComponent(gridComponent.Key, _notComponentCell);
                         _createdComponent = true;
                     }
                     else

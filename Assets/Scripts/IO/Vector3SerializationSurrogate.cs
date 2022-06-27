@@ -9,7 +9,7 @@ namespace IO
         {
             Vector3 v3 = (Vector3) obj;
             info.AddValue("x", v3.x);
-            info.AddValue("y", v3.x);
+            info.AddValue("y", v3.y);
             info.AddValue("z", v3.z);
         }
 

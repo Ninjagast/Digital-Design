@@ -35,7 +35,7 @@ namespace IO
             }
         }
 
-        public static object Load(string path)
+        public static SavedData Load(string path)
         {
             if (!File.Exists(path))
             {
@@ -49,7 +49,8 @@ namespace IO
             {
                 object save = formatter.Deserialize(file);
                 file.Close();
-                return save;
+                SavedData returnData = (SavedData)save;
+                return returnData;
             }
             catch
             {

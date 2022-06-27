@@ -28,6 +28,7 @@ namespace Creation.Commands
             {
                 WireCell wireCell = new WireCell(Instantiate(CreationManager.Current.wires[_wireId + 1]),Instantiate(CreationManager.Current.wires[_wireId]),_pos);
                 GameManager.Current.Grid.Add(_pos, wireCell);
+                GameManager.Current.AddComponent(_pos, wireCell);
             }
         }
 
@@ -47,7 +48,7 @@ namespace Creation.Commands
                 Destroy(components[1]);
                 componentCell.RemoveFromEventListener();
                 GameManager.Current.Grid.Remove(_pos);
-                Console.WriteLine("test");
+                GameManager.Current.RemoveComponent(_pos);
             }
         }
     }

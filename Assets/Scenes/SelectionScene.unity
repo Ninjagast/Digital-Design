@@ -1444,7 +1444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &846270160
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2160,9 +2160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newProjectButton: {fileID: 1782971703}
   openProjectButton: {fileID: 1736362347}
+  createProjectButton: {fileID: 353014714}
   recentLocationPrefab: {fileID: 1906252329}
   fileSpace: {fileID: 7897371118227325554, guid: 640db68b5a4096547b61af177838dd52, type: 3}
-  createProjectButton: {fileID: 353014711}
   newProjectPopUp: {fileID: 846270159}
   projectNameField: {fileID: 377006909}
 --- !u!4 &1400845932

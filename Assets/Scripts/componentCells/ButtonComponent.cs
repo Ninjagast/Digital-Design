@@ -70,6 +70,21 @@ namespace componentCells
             GameManager.Current.RemoveButtonComponent(_pos);
         }
 
+        public new ComponentTypes GetType()
+        {
+            return ComponentTypes.Component;
+        }
+
+        public KeyValuePair<int, int> GetComponentData()
+        {
+            return new KeyValuePair<int, int>();
+        }
+
+        public int GetId()
+        {
+            return -1;
+        }
+
         public void OnClick()
         {
             GameManager.Current.PulseId += 1;

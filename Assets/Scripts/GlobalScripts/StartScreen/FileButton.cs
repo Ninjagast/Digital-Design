@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using GlobalScripts.Creation;
 using IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,7 +16,12 @@ namespace GlobalScripts.StartScreen
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            SaveManager.Current.OnLoad(_fileLocation);
+            SavedData saveObject = SaveManager.Current.OnLoad(_fileLocation, _fileName);
+
+            SaveData.Current.buttons = saveObject.buttons;
+            SaveData.Current.components = saveObject.components;
+
+            SceneManager.LoadScene(sceneName:"CreationScene");
         }
 
         public void SetFileName(string fileName)

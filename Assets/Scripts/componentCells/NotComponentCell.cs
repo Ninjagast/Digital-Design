@@ -17,6 +17,8 @@ namespace componentCells
         private int _strength = -1; //The number of times this wire has been activated
         private bool _isOn = false;
         private Vector3 _outputPos;
+        private ComponentTypes _type = ComponentTypes.NotComponent;
+        
         
         public NotComponentCell(GameObject notComponentOn, GameObject notComponentOff, Vector3 position, int upperCeiling, int threshold, Vector3 placementOffset)
         {
@@ -138,6 +140,21 @@ namespace componentCells
         {
             EventManager.Current.ONSimulationStarting -= ONSimulationStarting;
             EventManager.Current.ONSimulationStopping -= ONSimulationStopping;
+        }
+
+        public new ComponentTypes GetType()
+        {
+            return _type;
+        }
+
+        public KeyValuePair<int, int> GetComponentData()
+        {
+            return new KeyValuePair<int, int>(_upperCeiling, _threshold);
+        }
+
+        public int GetId()
+        {
+            return -1;
         }
     }
 }

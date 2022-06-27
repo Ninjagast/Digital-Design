@@ -33,6 +33,7 @@ namespace Creation.Commands
                     Destroy(wires[1]);
                     wire.RemoveFromEventListener();
                     GameManager.Current.Grid.Remove(bluePrintToBuild.Key);
+                    GameManager.Current.RemoveComponent(bluePrintToBuild.Key);
                 }
             }
         }
@@ -45,6 +46,7 @@ namespace Creation.Commands
                 {
                     WireCell wireCell = new WireCell(Instantiate(_wireOn), Instantiate(_wireOff), bluePrintToBuild.Key);
                     GameManager.Current.Grid.Add(bluePrintToBuild.Key, wireCell);
+                    GameManager.Current.AddComponent(bluePrintToBuild.Key, wireCell);
                 }
             }
         }
@@ -58,6 +60,7 @@ namespace Creation.Commands
                 {
                     WireCell wireCell = new WireCell(Instantiate(_wireOn), Instantiate(_wireOff), bluePrintToBuild.Key);
                     GameManager.Current.Grid.Add(bluePrintToBuild.Key, wireCell);
+                    GameManager.Current.AddComponent(bluePrintToBuild.Key, wireCell);
                 }
                 else
                 {

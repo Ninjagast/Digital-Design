@@ -17,13 +17,16 @@ namespace componentCells
         private int _strength = 0; //The number of times this wire has been activated
         private bool _isOn = false;
         private Vector3 _outputPos;
+        private ComponentTypes _type = ComponentTypes.Component;
+        private int _id;
         
-        public ComponentCell(GameObject componentOn, GameObject componentOff, Vector3 position, int upperCeiling, int threshold, Vector3 placementOffset)
+        public ComponentCell(GameObject componentOn, GameObject componentOff, Vector3 position, int upperCeiling, int threshold, Vector3 placementOffset, int id)
         {
             _componentOn = componentOn; 
             _componentOff = componentOff; 
             _upperCeiling = upperCeiling; 
             _threshold = threshold;
+            _id = id;
             _cellsToCheck = new Dictionary<int, Vector3>
             {
                 {1, new Vector3(1f, 0f, 0)},
@@ -129,6 +132,21 @@ namespace componentCells
         public void RemoveFromEventListener()
         {
             EventManager.Current.ONSimulationStopping -= ONSimulationStopping;
+        }
+
+        public new ComponentTypes GetType()
+        {
+            return _type;
+        }
+
+        public KeyValuePair<int, int> GetComponentData()
+        {
+            return new KeyValuePair<int, int>(_upperCeiling, _threshold);
+        }
+
+        public int GetId()
+        {
+            return _id;
         }
     }
 }

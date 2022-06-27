@@ -18,6 +18,7 @@ namespace componentCells
         private Dictionary<int, Vector3> _cellsToCheck;
 
         private int _strength = 0; //The number of times this wire has been activated
+        private ComponentTypes _type = ComponentTypes.Wire;
         
         public WireCell(GameObject wireOn, GameObject wireOff, Vector3 gridPos)
         {
@@ -48,6 +49,21 @@ namespace componentCells
         public void RemoveFromEventListener()
         {
             EventManager.Current.ONSimulationStopping -= ONSimulationStopping;
+        }
+
+        public new ComponentTypes GetType()
+        {
+            return _type;
+        }
+
+        public KeyValuePair<int, int> GetComponentData()
+        {
+            return new KeyValuePair<int, int>();
+        }
+
+        public int GetId()
+        {
+            return -1;
         }
 
         public void ONSimulationStopping()

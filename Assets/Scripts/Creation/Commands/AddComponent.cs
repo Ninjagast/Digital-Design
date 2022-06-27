@@ -17,9 +17,10 @@ namespace Creation.Commands
         private Vector3 _placementOffset;
         private bool _createdComponent = false;
         private ComponentCell _componentCell;
+        private int _id;
 
         
-        public AddComponent(GameObject componentOn, GameObject componentOff, Dictionary<Vector3, string> gridComponent, int upperCeiling, int threshold, Vector3 placementOffset)
+        public AddComponent(GameObject componentOn, GameObject componentOff, Dictionary<Vector3, string> gridComponent, int upperCeiling, int threshold, Vector3 placementOffset, int id)
         {
             _componentOn = componentOn;
             _componentOff = componentOff;
@@ -27,6 +28,7 @@ namespace Creation.Commands
             _upperCeiling = upperCeiling;
             _threshold = threshold;
             _placementOffset = placementOffset;
+            _id = id;
         }
 
         public void Undo()
@@ -45,6 +47,8 @@ namespace Creation.Commands
                         Destroy(components[1]);
                         componentCell.RemoveFromEventListener();
                         destroyedPrefabs = true;
+                        GameManager.Current.RemoveComponent(gridComponent.Key);
+
                     }
                     GameManager.Current.Grid.Remove(gridComponent.Key);
                 }
@@ -69,8 +73,9 @@ namespace Creation.Commands
                     if (!_createdComponent)
                     {
                         _componentCell =
-                            new ComponentCell(Instantiate(_componentOn), Instantiate(_componentOff), gridComponent.Key,_upperCeiling, _threshold, _placementOffset);
+                            new ComponentCell(Instantiate(_componentOn), Instantiate(_componentOff), gridComponent.Key,_upperCeiling, _threshold, _placementOffset, _id);
                         GameManager.Current.Grid.Add(gridComponent.Key, _componentCell);
+                        GameManager.Current.AddComponent(gridComponent.Key, _componentCell);
                         _createdComponent = true;
                     }
                     else

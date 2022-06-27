@@ -22,8 +22,8 @@ namespace IO
             }
         }
 
-        public List<ComponentData> components;
-        public List<ButtonData> buttons;
+        public List<ComponentData> components = new List<ComponentData>();
+        public List<ButtonData> buttons = new List<ButtonData>();
 
     }
 }

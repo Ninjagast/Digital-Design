@@ -38,7 +38,7 @@ namespace GlobalScripts.StartScreen
             }
             else
             {
-                
+                //todo need to add a pop up or a failed message
             }
         }
         

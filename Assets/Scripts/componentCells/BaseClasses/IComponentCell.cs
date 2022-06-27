@@ -11,5 +11,8 @@ namespace componentCells.BaseClasses
         public void DeActivate(int pulseId, bool shutdown = false);
         public List<GameObject> GetComponents();
         public void RemoveFromEventListener();
+        public ComponentTypes GetType();
+        public KeyValuePair<int, int> GetComponentData();
+        public int GetId();
     }
 }

@@ -58,7 +58,7 @@ namespace GlobalScripts.Creation
                 }
             }
 //          Down | S | Scroll down
-            if ((Input.GetKey(KeyCode.S) || (scrollSpeed > 0f && !Input.GetKey(KeyCode.LeftShift))) && !Input.GetKey(KeyCode.LeftControl))
+            if (((Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.LeftControl)) || (scrollSpeed > 0f && !Input.GetKey(KeyCode.LeftShift))) && !Input.GetKey(KeyCode.LeftControl))
             {
                 if (scrollSpeed.Equals(0))
                 {

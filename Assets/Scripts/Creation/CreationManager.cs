@@ -20,7 +20,7 @@ namespace Creation
         
         [Header("Buildable Components/wires")]
         public List<GameObject> wires;
-        public List<GameObject> components; // 0:Not gate | 2:Or gate | 4:And gate 
+        public List<GameObject> components; // 0:Not gate | 2:Or gate | 4:And gate | 6:XOR gate | 8:Toggle Button
         
         [Header("References to gameObjects")]
         public GameObject wireBluePrint;
@@ -111,32 +111,32 @@ namespace Creation
                         }
                         else if (selectedComponent == 2) // or gate
                         {
-                            Dictionary<Vector3, string> gridComponent = _generateGridComponent(pos);
+                            Dictionary<Vector3, string> gridComponent = GenerateGridComponent(pos);
                             if(_placeInGrid(gridComponent))
                             {
                                 AddComponent command = new AddComponent(components[3], components[2],
-                                    gridComponent, -1, 1, new Vector3(1, 1, 0));
+                                    gridComponent, -1, 1, new Vector3(1, 1, 0), 2);
                                 GameManager.Current.History.Push(command);
                             }
 
                         }
                         else if (selectedComponent == 4) // and gate
                         {
-                            Dictionary<Vector3, string> gridComponent = _generateGridComponent(pos);
+                            Dictionary<Vector3, string> gridComponent = GenerateGridComponent(pos);
                             if(_placeInGrid(gridComponent))
                             {
                                 AddComponent command = new AddComponent(components[5], components[4],
-                                    gridComponent, -1, 2, new Vector3(1, 1, 0));
+                                    gridComponent, -1, 2, new Vector3(1, 1, 0), 4);
                                 GameManager.Current.History.Push(command);
                             }
                         }
                         else if (selectedComponent == 6) // xor gate
                         {
-                            Dictionary<Vector3, string> gridComponent = _generateGridComponent(pos);
+                            Dictionary<Vector3, string> gridComponent = GenerateGridComponent(pos);
                             if(_placeInGrid(gridComponent))
                             {
                                 AddComponent command = new AddComponent(components[7], components[6],
-                                    gridComponent, 2, 1, new Vector3(1, 1, 0));
+                                    gridComponent, 2, 1, new Vector3(1, 1, 0), 6);
                                 GameManager.Current.History.Push(command);
                             }
                         }
@@ -155,7 +155,7 @@ namespace Creation
             }
         }
 
-        private Dictionary<Vector3, string> _generateGridComponent(Vector3 pos, int id = 0)
+        public static Dictionary<Vector3, string> GenerateGridComponent(Vector3 pos, int id = 0)
         {
             Dictionary<Vector3, string> gridComponent = new Dictionary<Vector3, string>();
             if (id == 0)
