@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Creation.Commands;
 using Enums;
 using GlobalScripts;
+using GlobalScripts.Creation;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -139,6 +140,16 @@ namespace Creation
                                 GameManager.Current.History.Push(command);
                             }
                         }
+                        else if (selectedComponent == 8) //toggle Button
+                        {
+                            KeyValuePair<Vector3, string> gridComponent = new KeyValuePair<Vector3, string>(pos, "");
+                            if (_placeInGrid(gridComponent))
+                            {
+                                AddButtonComponent command = new AddButtonComponent(components[9], components[8],
+                                    gridComponent, Vector3.zero, 1);
+                                GameManager.Current.History.Push(command);
+                            }
+                        }
                     }
                 }
             }
@@ -235,6 +246,11 @@ namespace Creation
             return true;
         }
 
+        private bool _placeInGrid(KeyValuePair<Vector3, string> keyValuePair)
+        {
+            return !GameManager.Current.Grid.ContainsKey(keyValuePair.Key);
+        }
+        
         private bool _resetTabsIfOpen()
         {
             if (SheetAreaController.Current.isOpenTab)

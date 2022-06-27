@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using componentCells.BaseClasses;
 using GlobalScripts;
+using GlobalScripts.Creation;
 using UnityEngine;
 
 namespace componentCells
@@ -42,22 +43,19 @@ namespace componentCells
 
         public void Activate(int pulseId)
         {
-            if (pulseId != _lastPulse)
+            _strength += 1;
+            if (_upperCeiling != -1 && _strength >= _upperCeiling)
             {
-                _strength += 1;
-                if (_upperCeiling != -1 && _strength >= _upperCeiling)
+                if (_isOn)
                 {
-                    if (_isOn)
-                    {
-                        _turnCellOff(pulseId);
-                    }
+                    _turnCellOff(pulseId);
                 }
-                else if (_strength >= _threshold)
+            }
+            else if (_strength >= _threshold)
+            {
+                if (!_isOn)
                 {
-                    if (!_isOn)
-                    {
-                        _turnCellOn(pulseId);
-                    }
+                    _turnCellOn(pulseId);
                 }
             }
         }
@@ -71,14 +69,14 @@ namespace componentCells
                     _strength -= 1;
                     if (_upperCeiling != -1 && _strength < _upperCeiling && _strength >= _threshold)
                     {
-                        if (_isOn)
+                        if (!_isOn)
                         {
                             _turnCellOn(pulseId);
                         }
                     }
                     if (_strength < _threshold)
                     {                    
-                        if (!_isOn)
+                        if (_isOn)
                         {
                             _turnCellOff(pulseId);
                         }

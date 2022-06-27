@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 //todo: Not a perfect solution need to change this if I have time. (Give every tab a tab area which tracks if a tab needs to be closed)
-namespace GlobalScripts
+namespace GlobalScripts.Creation
 {
     public class SheetAreaController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

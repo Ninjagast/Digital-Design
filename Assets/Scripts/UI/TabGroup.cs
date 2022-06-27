@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GlobalScripts;
+using GlobalScripts.Creation;
 using UnityEngine;
 
 namespace UI
@@ -21,7 +22,6 @@ namespace UI
 
         [Header("Reference to the sheetController and differentiates the tab groups")] 
         public bool templateTab;
-        public GameObject sheetAreaController;
         
         private Tab _selectedTab;
 
@@ -36,7 +36,7 @@ namespace UI
             {
                 _selectedTab = null;
                 ResetTabs();
-                UpdateTabWindows(-1);
+                _updateTabWindows(-1);
             }
         }
 
@@ -77,7 +77,7 @@ namespace UI
             {
                 _selectedTab = null;
                 ResetTabs();
-                UpdateTabWindows(-1);
+                _updateTabWindows(-1);
                 SheetAreaController.Current.OnTabClose(templateTab);
             }
             else
@@ -85,7 +85,7 @@ namespace UI
                 _selectedTab = tab;
                 ResetTabs();
                 tab.background.sprite = tabActive;
-                UpdateTabWindows(tab.transform.GetSiblingIndex());
+                _updateTabWindows(tab.transform.GetSiblingIndex());
             }
         }
 
@@ -107,7 +107,7 @@ namespace UI
             }
         }
 
-        private void UpdateTabWindows(int index = 0)
+        private void _updateTabWindows(int index = 0)
         {
             for (int i = 0; i < objectsToSwap.Count; i++)
             {

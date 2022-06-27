@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using componentCells;
 using componentCells.BaseClasses;
 using Creation;
-using Creation.Commands;
 using Enums;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-namespace GlobalScripts
+namespace GlobalScripts.Creation
 {
     public class GameManager : MonoBehaviour
     {
@@ -22,6 +21,10 @@ namespace GlobalScripts
         [NonSerialized] public Dictionary<Vector3, IComponentCell> Grid;
         [NonSerialized] public int PulseId = 0;
         
+        [NonSerialized] private Dictionary<Vector3, IComponentCell> _buttons = new Dictionary<Vector3, IComponentCell>();
+        [NonSerialized] private Camera _camera;
+        [NonSerialized] private Tilemap _tileMap;
+        
         private void Awake()
         {
             _current = this;
@@ -35,12 +38,15 @@ namespace GlobalScripts
             EventManager.Current.ONSimulationStopping += _OnSimulationStopping;
             History = new CommandHistory();
             AppState = AppState.Creation;
+            _camera = CameraController.Current.mainCamera;
+            _tileMap = CreationManager.Current.tilemap;
         }
 
         // Update is called once per frame
         void Update()
         {
             _handleKeyboardInput();
+            _handleMouseButtonPress();
         }
 
         private void _handleKeyboardInput()
@@ -67,7 +73,37 @@ namespace GlobalScripts
                 }
             }
         }
+
+        private void _handleMouseButtonPress()
+        {
+            if (AppState == AppState.Running)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Vector3 pos = _tileMap.WorldToCell(_camera.ScreenToWorldPoint(Input.mousePosition));
+                    pos.y += .5f;
+                    pos.x += .5f;
+                    foreach (KeyValuePair<Vector3, IComponentCell> button in _buttons)
+                    {
+                        if (button.Key == pos)
+                        {
+                            button.Value.Activate(-17);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void AddButtonComponent(Vector3 pos, IComponentCell button)
+        {
+            _buttons.Add(pos, button);
+        }
         
+        public void RemoveButtonComponent(Vector3 pos)
+        {
+            _buttons.Remove(pos);
+        }
+
         private void _OnSimulationStarting()
         {
             AppState = AppState.Running;

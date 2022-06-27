@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
-using componentCells;
 using UnityEngine;
 
-namespace GlobalScripts
+namespace GlobalScripts.Creation
 {
     public class EventManager : MonoBehaviour
     {
         private static EventManager _current;
         public static EventManager Current => _current;
-
-        public List<NotComponentCell> NotComponnents = new List<NotComponentCell>();
 
         private void Awake()
         {

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using componentCells;
+using componentCells.BaseClasses;
 using GlobalScripts;
+using GlobalScripts.Creation;
 using UnityEngine;
 
 namespace Creation.Commands
@@ -24,9 +27,11 @@ namespace Creation.Commands
             {
                 if (GameManager.Current.Grid.ContainsKey(bluePrintToBuild.Key))
                 {
-                    List<GameObject> wires = GameManager.Current.Grid[bluePrintToBuild.Key].GetComponents();
+                    IComponentCell wire = GameManager.Current.Grid[bluePrintToBuild.Key];
+                    List<GameObject> wires = wire.GetComponents();
                     Destroy(wires[0]);
                     Destroy(wires[1]);
+                    wire.RemoveFromEventListener();
                     GameManager.Current.Grid.Remove(bluePrintToBuild.Key);
                 }
             }

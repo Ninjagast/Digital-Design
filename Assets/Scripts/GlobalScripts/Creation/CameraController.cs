@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //todo Need to grab hotkeys/speed values from the user options save
-namespace GlobalScripts
+namespace GlobalScripts.Creation
 {
     public class CameraController : MonoBehaviour
     {
